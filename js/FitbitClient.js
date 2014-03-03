@@ -41,7 +41,7 @@ window.App = window.App || {};
     FitbitClient.prototype.doRequest = function(method, url, params) {
         var that = this;
         this.oauth.authorize(function(token, secret) {
-            that.oauth.sendSignedRequest(url, $.proxy(that.onSuccess, that), { method: method, parameters: params });
+            that.oauth.sendSignedRequest(that.API_URL + url, $.proxy(that.onSuccess, that), { method: method, parameters: params });
         });
     }
     
@@ -50,7 +50,6 @@ window.App = window.App || {};
     }
     
     FitbitClient.prototype.onSuccess = function(response, xhr) {
-        console.log(xhr);
         $(this).trigger('onSuccess', [this, response, xhr]);
     }
     

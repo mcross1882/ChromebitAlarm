@@ -147,9 +147,10 @@ ChromeExOAuth.prototype.sendSignedRequest = function(url, callback,
   var params = opt_params && opt_params['parameters'] || {};
   var headers = opt_params && opt_params['headers'] || {};
   
-  var signedUrl = this.signURL(url, method, params);
-
-  ChromeExOAuth.sendRequest(method, signedUrl, headers, body, function (xhr) {
+  var temp = this.signURL(url, method, params);
+  headers.Authorization = temp.header;
+  
+  ChromeExOAuth.sendRequest(method, url, headers, body, function (xhr) {
     if (xhr.readyState == 4) {
       callback(xhr.responseText, xhr);
     }
@@ -163,7 +164,7 @@ ChromeExOAuth.prototype.sendSignedRequest = function(url, callback,
  * @param {String} method The http method to use.
  * @param {String} url The base url of the resource you are querying.
  * @param {Object} opt_params Query parameters to include in the request.
- * @return {String} The base url plus any query params plus any OAuth params.
+ * @return {Object} The base result object plus any query params plus any OAuth params.
  */
 ChromeExOAuth.prototype.signURL = function(url, method, opt_params) {
   var token = this.getToken();
@@ -186,7 +187,7 @@ ChromeExOAuth.prototype.signURL = function(url, method, opt_params) {
     }
   });
 
-  return result.signed_url;
+  return result;
 };
 
 /**
@@ -484,7 +485,7 @@ ChromeExOAuth.prototype.getRequestToken = function(callback, opt_args) {
     path : this.url_request_token,
     action: 'POST',
     parameters: {
-      "oauth_callback": 'chrome-extension://peibdemdjfffpekhlgmponfdmfebcemb/bg.html?c=t' // url_callback
+      "oauth_callback": url_callback
     },
     signatures: {
       consumer_key : this.consumer_key,
@@ -547,6 +548,7 @@ ChromeExOAuth.prototype.getAccessToken = function(oauth_token, oauth_verifier,
 
     var result = OAuthSimple().sign({
       path : this.url_access_token,
+      action: 'POST',
       parameters: {
         "oauth_token" : oauth_token,
         "oauth_verifier" : oauth_verifier
@@ -557,6 +559,8 @@ ChromeExOAuth.prototype.getAccessToken = function(oauth_token, oauth_verifier,
         oauth_secret : this.getTokenSecret(this.oauth_scope)
       }
     });
+    
+    console.log(result);
 
     var onToken = ChromeExOAuth.bind(this.onAccessToken, this, callback);
     ChromeExOAuth.sendRequest("POST", this.url_access_token, {Authorization: result.header}, null, onToken);

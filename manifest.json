@@ -10,10 +10,13 @@
     "*://www.fitbit.com/*",
     "*://api.fitbit.com/*"
   ],
+  "web_accessible_resources": [
+    "chrome_ex_oauth.html"
+  ],
   "content_scripts": [
     {
       "matches": ["*://www.google.com/calendar*"],
-      "js": ["js/Injector.js"]
+      "js": ["vendor/jquery.min.js", "vendor/moment.js", "js/Injector.js"]
     }
   ],
   "background": {
