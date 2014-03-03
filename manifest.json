@@ -1,0 +1,26 @@
+{
+  "manifest_version": 2,
+  "name": "Chromebit Alarm",
+  "description": "Allow Google Calendar to push alarms to your Fitbit device.",
+  "version": "0.1",
+  "permissions": [
+    "tabs",
+    "background", 
+    "*://www.google.com/calendar*",
+    "*://www.fitbit.com/*",
+    "*://api.fitbit.com/*"
+  ],
+  "content_scripts": [
+    {
+      "matches": ["*://www.google.com/calendar*"],
+      "js": ["js/Injector.js"]
+    }
+  ],
+  "background": {
+    "page": "bg.html"
+  },
+  "icons": {
+    "16": "images/icon-16.png",
+    "128": "images/icon-128.png"
+  }
+}
