@@ -13,8 +13,16 @@ window.App = window.App || {};
         client.getDevices();
         break;
         
+      case 'getAlarms':
+        client.getAlarms(args.deviceId);
+        break;
+        
       case 'saveAlarm':
         client.pushAlarm({ time: args.time, weekDays: [args.weekDay] }, args.deviceId);
+        break;
+        
+      case 'deleteAlarm':
+        client.deleteAlarm(args.alarmId, args.deviceId);
         break;
     }
   }

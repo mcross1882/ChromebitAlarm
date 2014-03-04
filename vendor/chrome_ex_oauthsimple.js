@@ -421,6 +421,7 @@ if (OAuthSimple === undefined)
                 if (paramName.match(/\w+_secret/)) {
                     continue;
                     }
+                    
                 if (this._parameters[paramName] instanceof Array)
                 {
                     var sorted = this._parameters[paramName].sort();
@@ -451,7 +452,9 @@ if (OAuthSimple === undefined)
             }
             if (this._parameters['oauth_signature_method'] == 'HMAC-SHA1')
             {
-                var sigString = this._oauthEscape(this._action)+'&'+this._oauthEscape(this._path)+'&'+this._oauthEscape(this._normalizedParameters()+'&oauth_version=1.0');
+                this._parameters['oauth_version'] = "1.0";
+                var sigString = this._oauthEscape(this._action)+'&'+this._oauthEscape(this._path)+'&'+this._oauthEscape(this._normalizedParameters());
+                delete this._parameters['oauth_version'];
                 return this.b64_hmac_sha1(secretKey,sigString);
             }
             return null;

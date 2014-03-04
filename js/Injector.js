@@ -3,6 +3,7 @@
 
   var Injector = function() {
     this.deviceList = [];
+    this.alarmList = [];
     this.registerEvents();
   }
   
@@ -51,7 +52,8 @@
     timeString = timeString.substr(0, timeString.lastIndexOf("–")).trim();
     timeString = moment(timeString, "dddd, MMMM D, h:ma");
     
-    var time = timeString.subtract('minutes', 15).format("hh:mm+00:00");
+    // xxx this is bad we need to make this so all timezones are accepted
+    var time = timeString.subtract('minutes', 15).format("hh:mm-06:00");
     var weekday = timeString.format("dddd");
     
     chrome.runtime.sendMessage({ 

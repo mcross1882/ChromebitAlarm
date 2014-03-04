@@ -150,12 +150,22 @@ ChromeExOAuth.prototype.sendSignedRequest = function(url, callback,
   var temp = this.signURL(url, method, params);
   headers.Authorization = temp.header;
   
-  ChromeExOAuth.sendRequest(method, url, headers, body, function (xhr) {
+  var safe_url = this.stripOAuthURL(temp.signed_url);
+  
+  if (safe_url[safe_url.length-1] == '?') {
+    safe_url = safe_url.substr(0, safe_url.length-1);
+  }
+  
+  ChromeExOAuth.sendRequest(method, safe_url, headers, body, function (xhr) {
     if (xhr.readyState == 4) {
       callback(xhr.responseText, xhr);
     }
   });
 };
+
+ChromeExOAuth.prototype.stripOAuthURL = function(url) {
+  return url.replace(new RegExp("oauth_.*?([\&\n\"])+?|oauth_.*?$", "igm"), "");
+}
 
 /**
  * Adds the required OAuth parameters to the given url and returns the
@@ -174,7 +184,7 @@ ChromeExOAuth.prototype.signURL = function(url, method, opt_params) {
   }
 
   var params = opt_params || {};
-
+  
   var result = OAuthSimple().sign({
     action : method,
     path : url,
@@ -479,8 +489,6 @@ ChromeExOAuth.prototype.getRequestToken = function(callback, opt_args) {
   var url_param = opt_args && opt_args['url_callback_param'] || 'c';
   var url_callback = ChromeExOAuth.addURLParam(url, url_param, "t");
   
-  console.log(url_callback);
-  
   var result = OAuthSimple().sign({
     path : this.url_request_token,
     action: 'POST',
@@ -560,8 +568,6 @@ ChromeExOAuth.prototype.getAccessToken = function(oauth_token, oauth_verifier,
       }
     });
     
-    console.log(result);
-
     var onToken = ChromeExOAuth.bind(this.onAccessToken, this, callback);
     ChromeExOAuth.sendRequest("POST", this.url_access_token, {Authorization: result.header}, null, onToken);
   }
