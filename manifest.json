@@ -20,7 +20,11 @@
     }
   ],
   "background": {
-    "page": "bg.html"
+    "page": "views/background.html"
+  },
+  "browser_action": {
+    "default_icon": "images/icon-16.png",
+    "default_popup": "views/popup.html"
   },
   "icons": {
     "16": "images/icon-16.png",
