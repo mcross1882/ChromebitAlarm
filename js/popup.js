@@ -72,7 +72,10 @@
   }
   
   PopupController.prototype.removeAlarm = function() {
-    // xxx send deleteAlarm message
+      var device_id = $(this).parents('.device').data('id');
+      var alarm_id = $(this).parents('.alarm').data('id');
+      
+      chrome.runtime.sendMessage({action: 'getAlarms', args: { deviceId: device_id, alarmId: alarm_id }, function(res) {
   }
   
   $(document).ready(function() {

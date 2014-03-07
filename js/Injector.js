@@ -53,7 +53,7 @@
     timeString = moment(timeString, "dddd, MMMM D, h:ma");
     
     // xxx this is bad we need to make this so all timezones are accepted
-    var time = timeString.subtract('minutes', 15).format("hh:mm-06:00");
+    var time = timeString.subtract('minutes', 15).format("HH:mmZ");
     var weekday = timeString.format("dddd");
     
     chrome.runtime.sendMessage({ 
