@@ -20,7 +20,12 @@
               <small class="pull-right"><span class="label <%= batteryLabel %>" title="<%= device.battery %>">Battery</span></small>
             </div>
             <ul class="list-group alarm-list">
-              <% for (var i in device.alarms) { %>
+              <% 
+                for (var i in device.alarms) {
+                  if (device.alarms[i].deleted) {
+                    continue;
+                  } 
+              %>
                 <li class="list-group-item alarm" data-id="<%= device.alarms[i].alarmId %>">
                   <%= device.alarms[i].time.substr(0, 5) %> 
                   
