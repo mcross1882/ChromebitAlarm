@@ -1,4 +1,18 @@
-
 .popup-wrap {
   width: 300px;
+  min-height: 135px;
+}
+
+.popup-wrap > .container {
+  margin-top: 51px;
+}
+
+.popup-wrap > .container .panel {
+  border-radius: 0px;
+  margin-bottom: 0px;
+}
+
+.popup-wrap > .container .panel .panel-heading {
+  background-image: none;
+  background-color: #eee;
 }

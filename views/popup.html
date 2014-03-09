@@ -3,20 +3,70 @@
     <head>
         <title>Chromebit Alarm :: Popup Menu</title>
         
+        <link rel="stylesheet" type="text/css" href="../css/bootstrap.min.css" />
+        <link rel="stylesheet" type="text/css" href="../css/bootstrap-theme.min.css" />
         <link rel="stylesheet" type="text/css" href="../css/popup.css" />
         
         <script type="text/javascript" src="../vendor/jquery.min.js"></script>
+        <script type="text/javascript" src="../vendor/underscore.min.js"></script>
+        <script type="text/javascript" src="../vendor/bootstrap.min.js"></script>
         <script type="text/javascript" src="../vendor/moment.js"></script>
         
         <script type="text/javascript" src="../js/popup.js"></script>
+        
+        <script type="text/template" id="deviceTemplate">
+          <div class="panel panel-default device" data-id="<%= device.id %>">
+            <div class="panel-heading"><strong><%= device.deviceVersion %></strong> 
+              <small class="pull-right"><span class="label <%= batteryLabel %>" title="<%= device.battery %>">Battery</span></small>
+            </div>
+            <ul class="list-group alarm-list">
+              <% for (var i in device.alarms) { %>
+                <li class="list-group-item alarm" data-id="<%= device.alarms[i].alarmId %>">
+                  <%= device.alarms[i].time.substr(0, 5) %> 
+                  
+                  <% if (device.alarms[i].weekDays.length > 0) { %>
+                    <% for (var day in device.alarms[i].weekDays) { %>
+                      <%= device.alarms[i].weekDays[day].substr(0, 3) %> 
+                    <% } %>
+                  <% } else { %>
+                    Today
+                  <% } %>
+                  <a href="#" class="remove"><span class="glyphicon glyphicon-remove pull-right"></span></a>
+                </li>
+              <% } %>
+            </ul>
+          </div>
+        </script>
     </head>
+    
     <body>
       <div class="popup-wrap">
-        <div class="heading">
-          <h3>Devices</h3>
+        <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              <a class="navbar-brand" href="#">Chromebit Alarm</a>
+            </div>
+            <div class="collapse navbar-collapse">
+              <ul class="nav navbar-nav">
+                <li><a href="https://github.com/mcross1882/ChrombitAlarm/wiki/help" target="_blank">Help</a></li>
+                <li><a href="https://github.com/mcross1882/ChrombitAlarm" target="_blank">Project Page</a></li>
+                <li><a href="http://www.fitbit.com" target="_blank">Fitbit.com</a></li>
+              </ul>
+            </div><!--/.nav-collapse -->
+          </div>
         </div>
         
-        <div class="device-list"></div>
+        <div class="container">
+          <div class="row">
+            <div class="device-list"></div>
+          </div>
+        </div><!-- /.container -->
       </div>
     </body>
 </html>
