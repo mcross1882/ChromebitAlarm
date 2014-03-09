@@ -37,45 +37,44 @@
   
   PopupController.prototype.buildDeviceList = function(devices) {
     var list = $('.device-list');
+    var compile = _.template($('#deviceTemplate').html());
+    console.log(devices);
     for (var i in devices) {
-      list.append(
-        $('<div>')
-          .addClass('device')
-          .attr('data-id', devices[i].id)
-          .append($('<strong>').text(devices[i].deviceVersion))
-          .append(this.buildAlarmList(devices[i].alarms))
-      );
+      list.append($(compile({device: devices[i], batteryLabel: this.getBatteryLabel(devices[i])})));
     }
+    $('.remove').click(this.removeAlarm);
   }
   
-  PopupController.prototype.buildAlarmList = function(alarms) {
-    console.log(alarms);
-    var list = $('<ul>').addClass('alarm-list');
-    for (var i in alarms) {
-        list.append(
-          $('<li>')
-            .addClass('alarm')
-            .attr('data-id', alarms[i].alarmId)
-            .text(alarms[i].time)
-            .append(this.buildRemoveLink())
-        );
-    }
-    return list;
-  }
-  
-  PopupController.prototype.buildRemoveLink = function() {
-    return $('<a>')
-      .attr('href', '#')
-      .addClass('remove')
-      .text('Remove')
-      .click(this.removeAlarm);
-  }
-  
-  PopupController.prototype.removeAlarm = function() {
-      var device_id = $(this).parents('.device').data('id');
-      var alarm_id = $(this).parents('.alarm').data('id');
+  PopupController.prototype.getBatteryLabel = function(device) {
+    switch (device.battery) {
+      case 'Full': case 'High':
+        return 'label-success';
+        
+      case 'Medium':
+        return 'label-warning';
       
-      chrome.runtime.sendMessage({action: 'getAlarms', args: { deviceId: device_id, alarmId: alarm_id }, function(res) {
+      case 'Low': default:
+        return 'label-danger';
+    }
+  }
+
+  PopupController.prototype.removeAlarm = function() {
+    var device_id = Number($(this).parents('.device').data('id'));
+    var alarm_id = Number($(this).parents('.alarm').data('id'));
+    
+    chrome.runtime.sendMessage({
+      action: 'deleteAlarm', 
+      args: { 
+        deviceId: device_id, 
+        alarmId: alarm_id 
+      }}, function(res) {
+        console.log(res);
+        console.log("Deleted alarm " + alarm_id + " from device " + device_id);
+      });
+      
+    $(this).parent().fadeOut(function() {
+      $(this).remove();
+    });
   }
   
   $(document).ready(function() {

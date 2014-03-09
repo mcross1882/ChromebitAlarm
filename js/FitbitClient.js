@@ -41,7 +41,7 @@ window.App = window.App || {};
     FitbitClient.prototype.deleteAlarm = function(alarm_id, device_id, user_id) {
         return this.doRequest(
             'DELETE'
-            , "/1/user/" + this.safeId(user_id) + "/devices/tracker/" + device_id + "/alarms/" + alarm_id + " .json"
+            , "/user/" + this.safeId(user_id) + "/devices/tracker/" + device_id + "/alarms/" + alarm_id + ".json"
             , {}
         );
     }
@@ -63,20 +63,6 @@ window.App = window.App || {};
     
     FitbitClient.prototype.onSuccess = function(response, xhr) {
         $(this).trigger('onSuccess', [this, response, xhr]);
-    }
-    
-    FitbitClient.prototype.buildParamString = function(params) {
-      if (!params || $.isEmptyObject(params)) {
-        return;
-      }
-      
-      var result = "";
-      for (var i in params) {
-        result += i + "=" + params[i] + "&";
-      }
-      
-      console.log(result.substr(0, result.length-1));
-      return result.substr(0, result.length-1);
     }
     
     FitbitClient.prototype.defaultAlarm = {

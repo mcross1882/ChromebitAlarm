@@ -10,6 +10,7 @@
     "*://www.fitbit.com/*",
     "*://api.fitbit.com/*"
   ],
+  "content_security_policy": "script-src 'self' 'unsafe-eval'; object-src 'self'",
   "web_accessible_resources": [
     "chrome_ex_oauth.html"
   ],
