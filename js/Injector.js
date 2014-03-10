@@ -61,7 +61,7 @@
     if (!$('.enable-fitbit-notifications').prop('checked')) {
       return;
     }
-    this.saveAlarm($('.bubblecontent .cb-table tr:first-child .cb-value').text());
+    this.saveAlarm($("input[id$='what']").val(), $('.bubblecontent .cb-table tr:first-child .cb-value').text());
   }
   
   Injector.prototype.savePageAlarm = function() {
@@ -73,7 +73,7 @@
     });
   }
   
-  Injector.prototype.saveAlarm = function(timeString) {
+  Injector.prototype.saveAlarm = function(label, timeString) {
     if (!this.deviceList || this.deviceList.length <= 0) {
       return;
     }
@@ -91,7 +91,8 @@
       args: { 
         deviceId: deviceId, 
         weekDay: weekday,
-        time: time
+        time: time,
+        label: label
       }
     }, function(res) {
       console.log('Saved alarm to Fitbit (Device: ' + deviceId + ')');

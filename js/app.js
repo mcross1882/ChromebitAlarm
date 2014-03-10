@@ -18,7 +18,7 @@ window.App = window.App || {};
         break;
         
       case 'saveAlarm':
-        client.pushAlarm({ time: args.time, weekDays: [args.weekDay] }, args.deviceId);
+        client.pushAlarm({ time: args.time, weekDays: [args.weekDay], label: args.label }, args.deviceId);
         break;
         
       case 'deleteAlarm':

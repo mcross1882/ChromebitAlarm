@@ -72,7 +72,7 @@
         console.log("Deleted alarm " + alarm_id + " from device " + device_id);
       });
       
-    $(this).parent().fadeOut(function() {
+    $(this).parent().parent().fadeOut(function() {
       $(this).remove();
     });
   }

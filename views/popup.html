@@ -27,16 +27,32 @@
                   } 
               %>
                 <li class="list-group-item alarm" data-id="<%= device.alarms[i].alarmId %>">
-                  <%= device.alarms[i].time.substr(0, 5) %> 
-                  
-                  <% if (device.alarms[i].weekDays.length > 0) { %>
-                    <% for (var day in device.alarms[i].weekDays) { %>
-                      <%= device.alarms[i].weekDays[day].substr(0, 3) %> 
+                  <div class="actions">
+                    <a href="#" class="remove" title="Delete this alarm"><span class="glyphicon glyphicon-remove pull-right"></span></a>
+                   
+                    <% if (device.alarms[i].enabled) { %>
+                      <a href="#" class="enable" title="Enable/Disable Alarm"><span class="glyphicon glyphicon-ok active pull-right"></span></a>
+                    <% } else { %>
+                      <a href="#" class="enable" title="Enable/Disable Alarm"><span class="glyphicon glyphicon-ok pull-right"></span></a>
                     <% } %>
-                  <% } else { %>
-                    Today
-                  <% } %>
-                  <a href="#" class="remove"><span class="glyphicon glyphicon-remove pull-right"></span></a>
+                      
+                    <% if (!device.alarms[i].syncedToDevice) { %>
+                      <span class="glyphicon glyphicon-exclamation-sign pull-right" title="This alarm is not synced to your device!"></span>
+                    <% } %>
+                  </div>
+                  
+                  <div class="content">
+                    <strong><%= device.alarms[i].label || 'No Label' %></strong><br />
+                    <small><%= device.alarms[i].time.substr(0, 5) + ',' %> 
+                    <% if (device.alarms[i].weekDays.length > 0) { %>
+                      <% for (var day in device.alarms[i].weekDays) { %>
+                        <%= device.alarms[i].weekDays[day].substr(0, 3) %> 
+                      <% } %>
+                    <% } else { %>
+                      Today
+                    <% } %>
+                    </small>
+                  </div>
                 </li>
               <% } %>
             </ul>
@@ -59,9 +75,9 @@
             </div>
             <div class="collapse navbar-collapse">
               <ul class="nav navbar-nav">
-                <li><a href="https://github.com/mcross1882/ChrombitAlarm/wiki/help" target="_blank">Help</a></li>
-                <li><a href="https://github.com/mcross1882/ChrombitAlarm" target="_blank">Project Page</a></li>
-                <li><a href="http://www.fitbit.com" target="_blank">Fitbit.com</a></li>
+                <li><a href="https://github.com/mcross1882/ChromebitAlarm/wiki/Getting-Started" target="_blank">Help</a></li>
+                <li><a href="https://github.com/mcross1882/ChromebitAlarm" target="_blank">Project Website</a></li>
+                <li><a href="http://www.fitbit.com" target="_blank">Fitbit Website</a></li>
               </ul>
             </div><!--/.nav-collapse -->
           </div>

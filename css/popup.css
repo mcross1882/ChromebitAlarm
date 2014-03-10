@@ -16,3 +16,29 @@
   background-image: none;
   background-color: #eee;
 }
+
+.popup-wrap > .container .panel .panel-heading  strong {
+  color: rgba(175,175,175, 0.8);
+  text-shadow: 1px 4px 6px #fff, 0 0 0 #000, 1px 4px 6px #fff;
+}
+
+.popup-wrap > .container .panel .glyphicon {
+  color: rgba(175,175,175, 0.8);
+  text-shadow: 1px 4px 6px #fff, 0 0 0 #000, 1px 4px 6px #fff;
+  transition: color 0.5s ease;
+  font-size: 1.5em;
+  margin: 0.35em 0.25em;
+}
+
+.popup-wrap > .container .panel .glyphicon-remove:hover {
+  color: rgba(255,0,0,0.8);   
+}
+
+.popup-wrap > .container .panel .glyphicon-ok.active:hover,
+.popup-wrap > .container .panel .glyphicon-ok:hover {
+  color: rgba(0,255,0,0.8);
+}
+
+.popup-wrap > .container .panel .glyphicon-ok.active {
+  color: rgba(0,175,0,0.8);
+}
